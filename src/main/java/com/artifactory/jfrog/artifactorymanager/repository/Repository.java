@@ -1,66 +1,42 @@
 package com.artifactory.jfrog.artifactorymanager.repository;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.validation.constraints.Size;
+import java.util.Arrays;
 
-@Entity
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
+@RestController
 public class Repository {
 	
-	@Size(min=13, max=15, message="IP should have 13 to 15 characters") 
-	private String ipfrog;
-	
-	@Id
-	@GeneratedValue
-	private Integer id;
-	
-	@Size(min=2, message="Name should have atleast 2 characters") 
-	private String name;
+	@Autowired
+	RestTemplate restTemplate;
 	
 	protected Repository() {
 		
 	}
-
-
-	public Repository(String ipfrog, Integer id, String name) {
-		super();
-		this.ipfrog = ipfrog;
-		this.id = id;
-		this.name = name;
-	}
-
-	public String getIpfrog() {
-		return ipfrog;
-	}
-
-	public void setIpfrog(String ipfrog) {
-		this.ipfrog = ipfrog;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-
-	public String getName() {
-		return name;
-	}
-
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-
-	@Override
-	public String toString() {
-		return String.format("Repository [ipfrog=%s, id=%s, name=%s]", ipfrog, id, name);
-	}
 	
-	 	
+	@RequestMapping(value = "/template/build")
+	   public String getBuild() {
+	      HttpHeaders headers = new HttpHeaders();
+	      headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+	      HttpEntity <String> entity = new HttpEntity<String>(headers);
+	      
+	      return restTemplate.exchange("http://localhost:8081/artifactory/api/build", HttpMethod.GET, entity, String.class).getBody();
+	   }
+		 		
+	@RequestMapping(value = "/template/repositories")
+	   public String getArtifactoryList() {
+	      HttpHeaders headers = new HttpHeaders();
+	      headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+	      HttpEntity <String> entity = new HttpEntity<String>(headers);
+	      
+	      return restTemplate.exchange("http://localhost:8081/artifactory/api/repositories", HttpMethod.GET, entity, String.class).getBody();
+	   }
+		 	
 }
