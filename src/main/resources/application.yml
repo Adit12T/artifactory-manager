@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: artifactory-manager
+  cache:
+    cache-names: repositories,builds
+    caffeine:
+      spec: maximumSize=200,expireAfterWrite=60s
+
+artifactory:
+  base-url: ${ARTIFACTORY_URL:http://localhost:8081/artifactory}
+  access-token: ${ARTIFACTORY_ACCESS_TOKEN:}
+  connect-timeout: 3s
+  read-timeout: 10s
+
+app:
+  api-keys:
+    read: ${APP_READ_API_KEY:}
+    admin: ${APP_ADMIN_API_KEY:}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+server:
+  error:
+    include-message: never
+    include-stacktrace: never

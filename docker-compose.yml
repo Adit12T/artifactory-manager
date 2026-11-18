@@ -1,0 +1,11 @@
+# Runs the manager in front of an existing Artifactory. Put real values in a .env file next to this one.
+services:
+  artifactory-manager:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      ARTIFACTORY_URL: ${ARTIFACTORY_URL}
+      ARTIFACTORY_ACCESS_TOKEN: ${ARTIFACTORY_ACCESS_TOKEN}
+      APP_READ_API_KEY: ${APP_READ_API_KEY}
+      APP_ADMIN_API_KEY: ${APP_ADMIN_API_KEY}
