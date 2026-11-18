@@ -6,8 +6,6 @@ import io.github.adit12t.artifactorymanager.client.ArtifactoryModels.BuildList;
 import io.github.adit12t.artifactorymanager.client.ArtifactoryModels.BuildRuns;
 import io.github.adit12t.artifactorymanager.client.ArtifactoryModels.CreateLocalRepository;
 import io.github.adit12t.artifactorymanager.client.ArtifactoryModels.RepositorySummary;
-import org.springframework.boot.web.client.ClientHttpRequestFactories;
-import org.springframework.boot.web.client.ClientHttpRequestFactorySettings;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,7 +17,7 @@ import org.springframework.web.client.RestClientResponseException;
 import java.util.List;
 import java.util.function.Supplier;
 
-/** Thin, typed wrapper around the Artifactory REST API. */
+/** Thin, typed wrapper around the Artifactory REST API. Timeouts come from spring.http.client.* settings. */
 @Component
 public class ArtifactoryClient {
 
@@ -30,9 +28,6 @@ public class ArtifactoryClient {
                 .baseUrl(props.baseUrl().toString().replaceAll("/+$", ""))
                 .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + props.accessToken())
                 .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
-                .requestFactory(ClientHttpRequestFactories.get(ClientHttpRequestFactorySettings.DEFAULTS
-                        .withConnectTimeout(props.connectTimeout())
-                        .withReadTimeout(props.readTimeout())))
                 .build();
     }
 

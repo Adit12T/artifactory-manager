@@ -13,7 +13,6 @@ import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestClient;
 
 import java.net.URI;
-import java.time.Duration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -35,7 +34,7 @@ class ArtifactoryClientTests {
         RestClient.Builder builder = RestClient.builder();
         server = MockRestServiceServer.bindTo(builder).build();
         client = new ArtifactoryClient(builder, new ArtifactoryProperties(
-                URI.create("http://artifactory.test/artifactory/"), "test-token", Duration.ofSeconds(1), Duration.ofSeconds(1)));
+                URI.create("http://artifactory.test/artifactory/"), "test-token"));
     }
 
     @Test

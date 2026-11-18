@@ -6,7 +6,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
 import java.net.URI;
-import java.time.Duration;
 
 /**
  * Where Artifactory is and how to reach it. The access token comes from the environment and is
@@ -16,14 +15,7 @@ import java.time.Duration;
 @ConfigurationProperties("artifactory")
 public record ArtifactoryProperties(
         @NotNull URI baseUrl,
-        @NotBlank String accessToken,
-        Duration connectTimeout,
-        Duration readTimeout) {
-
-    public ArtifactoryProperties {
-        connectTimeout = connectTimeout == null ? Duration.ofSeconds(3) : connectTimeout;
-        readTimeout = readTimeout == null ? Duration.ofSeconds(10) : readTimeout;
-    }
+        @NotBlank String accessToken) {
 
     @Override
     public String toString() {

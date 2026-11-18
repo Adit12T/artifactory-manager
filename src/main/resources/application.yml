@@ -1,6 +1,10 @@
 spring:
   application:
     name: artifactory-manager
+  http:
+    client:
+      connect-timeout: 3s
+      read-timeout: 10s
   cache:
     cache-names: repositories,builds
     caffeine:
@@ -9,8 +13,6 @@ spring:
 artifactory:
   base-url: ${ARTIFACTORY_URL:http://localhost:8081/artifactory}
   access-token: ${ARTIFACTORY_ACCESS_TOKEN:}
-  connect-timeout: 3s
-  read-timeout: 10s
 
 app:
   api-keys:
